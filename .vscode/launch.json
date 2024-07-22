@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug puml with mkdocs",
+            "type": "debugpy",
+            "request": "launch",
+            // Obtain from pipenv --venv or mkdocs --version
+            "program": "~/.local/share/virtualenvs/mkdocs_puml-hF20FBZB/bin/mkdocs",
+            "console": "integratedTerminal",
+            "args": ["serve", "-c", "-v"],
+            "cwd": "${workspaceFolder}/example",
+            "justMyCode": false
+        }
+    ]
+}
