@@ -34,26 +34,42 @@
 ## Example
 
 ```puml
-@startuml sign_in_sequence
+@startuml
+!include <C4/C4_Container>
 skinparam backgroundColor transparent
+!unquoted procedure Person()
+  Person(personAlias, "Enduser", "Enduser uses My System")
+!endfunction
 
-title "Sign In Sequence Diagram"
+!unquoted procedure BOUNDARY()
+  System_Boundary(ms, "My System Boundary") {
+    Container(mysystem, "My System", "Node, Angular", "Does really cool things")
+  }
+!endfunction
 
-actor User
+!unquoted procedure EXTSYSTEMS()
+  System_Ext(sys_ext1, "Ext System 1", "Does things")
+  System_Ext(sys_ext2, "Ext System 2", "Does things")
+  System_Ext(sys_ext3, "Ext System 3", "Does things")
+  System_Ext(sys_ext4, "Ext System 4", "Does things")
+!endfunction
 
-participant AppDeviceTokenObtainPairView
-participant "@action authenticate" as authenticate
+' Echo the persons
+Person()
+' The PB system context
+BOUNDARY()
+' echo the external systems
+EXTSYSTEMS()
 
-entity AppDevice
-entity User as UserModel
-
-User -> authenticate: {"email": email, "password": password}
-activate authenticate
-
-authenticate -> UserModel: Look for User with email in DB
-activate UserModel
+' Relationships
+Rel(personAlias, mysystem, "via App or Web", "REST over HTTPS")
+Rel(mysystem, sys_ext1, "Communicates", "REST")
+Rel(mysystem, sys_ext2, "Communicates","GraphQL")
+Rel(mysystem, sys_ext3, "Syncs Data", "REST")
+Rel(mysystem, sys_ext4, "Communicates", "SOAP")
 
 @enduml
+
 ```
 
 Text under diagram.
