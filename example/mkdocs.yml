@@ -50,8 +50,9 @@ extra_javascript:
 plugins:
   - search: {}
   - plantuml:
+      enabled: true
       puml_url: https://www.plantuml.com/plantuml/
       num_workers: 8
       puml_keyword: puml
-      verify_ssl: false
+      verify_ssl: true
       auto_dark: true

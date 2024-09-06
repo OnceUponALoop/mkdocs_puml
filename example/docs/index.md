@@ -35,39 +35,42 @@
 
 ```puml
 @startuml
-!include <C4/C4_Container>
+title "OSCIED Charms Relations (Simple)"
+skinparam componentStyle uml2
 skinparam backgroundColor transparent
-!unquoted procedure Person()
-  Person(personAlias, "Enduser", "Enduser uses My System")
-!endfunction
 
-!unquoted procedure BOUNDARY()
-  System_Boundary(ms, "My System Boundary") {
-    Container(mysystem, "My System", "Node, Angular", "Does really cool things")
-  }
-!endfunction
+cloud {
+    interface "JuJu" as juju
+    interface "API" as api
+    interface "Storage" as storage
+    interface "Transform" as transform
+    interface "Publisher" as publisher
+    interface "Website" as website
 
-!unquoted procedure EXTSYSTEMS()
-  System_Ext(sys_ext1, "Ext System 1", "Does things")
-  System_Ext(sys_ext2, "Ext System 2", "Does things")
-  System_Ext(sys_ext3, "Ext System 3", "Does things")
-  System_Ext(sys_ext4, "Ext System 4", "Does things")
-!endfunction
+    juju - [JuJu]
 
-' Echo the persons
-Person()
-' The PB system context
-BOUNDARY()
-' echo the external systems
-EXTSYSTEMS()
+    website - [WebUI]
+    [WebUI] .up.> juju
+    [WebUI] .down.> storage
+    [WebUI] .right.> api
 
-' Relationships
-Rel(personAlias, mysystem, "via App or Web", "REST over HTTPS")
-Rel(mysystem, sys_ext1, "Communicates", "REST")
-Rel(mysystem, sys_ext2, "Communicates","GraphQL")
-Rel(mysystem, sys_ext3, "Syncs Data", "REST")
-Rel(mysystem, sys_ext4, "Communicates", "SOAP")
+    api - [Orchestra]
+    transform - [Orchestra]
+    publisher - [Orchestra]
+    [Orchestra] .up.> juju
+    [Orchestra] .down.> storage
 
+    [Transform] .up.> juju
+    [Transform] .down.> storage
+    [Transform] ..> transform
+
+    [Publisher] .up.> juju
+    [Publisher] .down.> storage
+    [Publisher] ..> publisher
+
+    storage - [Storage]
+    [Storage] .up.> juju
+}
 @enduml
 
 ```
