@@ -54,3 +54,4 @@ plugins:
       num_workers: 8
       puml_keyword: puml
       verify_ssl: false
+      auto_dark: true
